@@ -48,36 +48,37 @@ x = RunTest("gitlab.com",  FORKREPO, verifydownload=True, overrideurl={
 x.test2_upload_process()
 # check the LFS quota usage
 
-#x.test3_download_process(sha256)
-#x.test3_download_process(sha256, key="deployread")
+x.test3_download_process(sha256)
+x.test3_download_process(sha256, key="deployread")
 #https://gitlab.com/zjuchenyuan/lfstest.git/gitlab-lfs/objects/2c045045273c6026c2d2653a5919d4ae9d3a91c165b79c808eaf0584b04893f3
 
 #private repo
-#x.test4_otheruser_read(sha256) #ERROR: The project you were looking for could not be found or you don't have permission to view it.
-#x.test5_otheruser_upload() #ERROR: The project you were looking for could not be found or you don't have permission to view it.
-#x.test6_otheruser_upload_usedownloadtoken()  #-
-#x.test16_download_use_otherusertoken(OTHERREPO, sha256) #HTTP Basic: Access denied. The provided password or token is incorrect or your account has 2FA enabl
+x.test4_otheruser_read(sha256) #ERROR: The project you were looking for could not be found or you don't have permission to view it.
+x.test5_otheruser_upload() #ERROR: The project you were looking for could not be found or you don't have permission to view it.
+x.test6_otheruser_upload_usedownloadtoken()  #-
+x.test16_download_use_otherusertoken(OTHERREPO, sha256) #HTTP Basic: Access denied. The provided password or token is incorrect or your account has 2FA enabl
 
 #public repo
-#x.test4_otheruser_read(sha256, "download") #ok
-#x.test3_download_process(sha256, key="anonymous") #ok
-#x.test5_otheruser_upload() #ERROR: You are not allowed to push code to this project.
-#x.test6_otheruser_upload_usedownloadtoken() #Access forbidden. Check your access level.
-#sha256 = x.test15_upload_use_otherusertoken(OTHERREPO) #401 HTTP Basic: Access denied. The provided password or token is incorrect or your account has 2FA enabled and you must use a personal access token instead of a password. See https://gitlab.com/help/topics/git/troubleshooting_git#error-on-git-fetch-http-basic-access-denied     
+x.test4_otheruser_read(sha256, "download") #ok
+x.test3_download_process(sha256, key="anonymous") #ok
+x.test5_otheruser_upload() #ERROR: You are not allowed to push code to this project.
+x.test6_otheruser_upload_usedownloadtoken() #Access forbidden. Check your access level.
+sha256 = x.test15_upload_use_otherusertoken(OTHERREPO) #401 HTTP Basic: Access denied. The provided password or token is incorrect or your account has 2FA enabled and you must use a personal access token instead of a password. See https://gitlab.com/help/topics/git/troubleshooting_git#error-on-git-fetch-http-basic-access-denied     
 
-#x.test8_candownload_use_uploadtoken(sha256) #ok
-#x.test9_canupload_use_deployread() #ERROR: This deploy key does not have write access to this project.
-#x.test10_canupload_use_deployread_usedownloadtoken() #403 Access forbidden. Check your access level.
+x.test8_candownload_use_uploadtoken(sha256) #ok
+x.test9_canupload_use_deployread() #ERROR: This deploy key does not have write access to this project.
+x.test10_canupload_use_deployread_usedownloadtoken() #403 Access forbidden. Check your access level.
 
-#x.test11_putwrongcontent()  
-#x.test12_putwrongsize_smaller(size=1024) #500 Internal Server Error
-#x.test13_putwrongsize_bigger() #400 SHA256 or size mismatch
+x.test11_putwrongcontent()  
+x.test12_putwrongsize_smaller(size=1024) #500 Internal Server Error
+x.test13_putwrongsize_bigger() #400 SHA256 or size mismatch
 
-#x.overwrite_existing_file("af333c61e89f50df7acf5de3a6c11ca2b5abb125ca746074d94f4afd865f4c56", b'file replaced', 
-#   url="https://gitlab.com/zjuchenyuan/lfstest.git/gitlab-lfs/objects/af333c61e89f50df7acf5de3a6c11ca2b5abb125ca746074d94f4afd865f4c56/13", 
-#   headers={"Accept": "application/vnd.git-lfs"}) #SHA256 or size mismatch <Response [400]>
+x.overwrite_existing_file("af333c61e89f50df7acf5de3a6c11ca2b5abb125ca746074d94f4afd865f4c56", b'file replaced', 
+   url="https://gitlab.com/zjuchenyuan/lfstest.git/gitlab-lfs/objects/af333c61e89f50df7acf5de3a6c11ca2b5abb125ca746074d94f4afd865f4c56/13", 
+   headers={"Accept": "application/vnd.git-lfs"}) #SHA256 or size mismatch <Response [400]>
 
 #set as Archive
 #sha256 = x.test2_upload_process() #ERROR: You are not allowed to push code to this project.
 ```
 
+Since none of these tests revealed any vulnerabilities (Illegal attempts being correctly rejected), GitLab is not affected by the LFS-related issues discussed in the paper.
